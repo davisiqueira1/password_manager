@@ -4,15 +4,14 @@ import 'package:password_manager/utils/color_palette.dart';
 class RegisterButton extends StatelessWidget {
   const RegisterButton({
     super.key,
-    required this.screenWidth,
     required this.onPressed,
   });
 
-  final double screenWidth;
   final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
