@@ -23,6 +23,7 @@ flutter:
   assets:
     - assets/images/shield-tick.svg
     - assets/images/box.svg
+    - assets/images/app_icon.svg
   fonts:
     - family: Poppins
       fonts:
