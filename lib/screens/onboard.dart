@@ -11,16 +11,16 @@ class OnboardScreen extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          margin: EdgeInsets.symmetric(vertical: screenHeight * 0.015),
-          child: Column(
-            children: [
-              const CarouselOnboard(),
-              RegisterButton(onPressed: () {}),
-              SizedBox(height: screenHeight * 0.015),
-              ButtonToLogin(onPressed: () {}),
-            ],
-          ),
+        body: Column(
+          children: [
+            const Spacer(flex: 2),
+            const CarouselOnboard(),
+            const Spacer(flex: 1),
+            RegisterButton(onPressed: () {}),
+            SizedBox(height: screenHeight * 0.015),
+            ButtonToLogin(onPressed: () {}),
+            const Spacer(flex: 2),
+          ],
         ),
       ),
     );
