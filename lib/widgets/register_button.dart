@@ -27,7 +27,7 @@ class RegisterButton extends StatelessWidget {
         "Register",
         style: TextStyle(
           fontWeight: FontWeight.normal,
-          fontSize: 24,
+          fontSize: 20,
         ),
       ),
     );
