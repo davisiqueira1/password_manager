@@ -22,7 +22,7 @@ class CarouselPassblockItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SvgPicture.asset("assets/images/app_icon.svg"),
+              SvgPicture.asset("assets/images/app_icon_with_shadow.svg"),
               const Text(
                 "Passblock",
                 style: TextStyle(
