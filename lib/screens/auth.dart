@@ -225,6 +225,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 const Spacer(),
                 GetVerificationButton(
+                  "Get verification code",
                   onPressed: _formIsReg ? _register : _login,
                 ),
               ],
