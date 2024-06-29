@@ -41,7 +41,7 @@ class _CarouselOnboardState extends State<CarouselOnboard> {
               height: 10,
               width: 100,
               decoration: BoxDecoration(
-                color: _currentItem == entry.key
+                color: _currentItem >= entry.key
                     ? ColorPalette.black
                     : ColorPalette.white,
                 border: Border.all(
@@ -58,7 +58,6 @@ class _CarouselOnboardState extends State<CarouselOnboard> {
             height: screenHeight * 0.75,
             viewportFraction: 1,
             autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 4),
             onPageChanged: (index, reason) {
               setState(() {
                 _currentItem = index;
