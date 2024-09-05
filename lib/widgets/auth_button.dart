@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:password_manager/utils/color_palette.dart';
 
-class GetVerificationButton extends StatelessWidget {
-  const GetVerificationButton(
+class AuthButton extends StatelessWidget {
+  const AuthButton(
     this.text, {
     super.key,
     required this.onPressed,

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:password_manager/utils/color_palette.dart';
 import 'package:password_manager/widgets/form_text_field.dart';
-import 'package:password_manager/widgets/get_verification_button.dart';
+import 'package:password_manager/widgets/auth_button.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -58,6 +58,7 @@ class _AuthScreenState extends State<AuthScreen> {
           margin: const EdgeInsets.symmetric(vertical: 25),
           child: Center(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 SvgPicture.asset("assets/images/app_icon.svg"),
                 const Text(
@@ -92,6 +93,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       horizontal: screenWidth * 0.035,
                     ),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
                           decoration: BoxDecoration(
@@ -167,6 +169,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 key: _registerFormKey,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     const Text(
                                       "Personal details",
@@ -197,6 +200,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 key: _loginFormKey,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     const Text(
                                       "Enter mobile no.",
@@ -224,8 +228,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                 ),
                 const Spacer(),
-                GetVerificationButton(
-                  "Get verification code",
+                AuthButton(
+                  _formIsReg ? "Register" : "Login",
                   onPressed: _formIsReg ? _register : _login,
                 ),
               ],
