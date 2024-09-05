@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:password_manager/utils/color_palette.dart';
 import 'package:password_manager/widgets/form_text_field.dart';
 import 'package:password_manager/widgets/auth_button.dart';
@@ -26,9 +25,11 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
-  String? _validatePhoneNumber(String? fieldValue) {
-    if (fieldValue == null || fieldValue.length != 19) {
-      return "Invalid phone number";
+  String? _validateEmail(String? email) {
+    if (email == null ||
+        !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
+            .hasMatch(email)) {
+      return "Invalid e-mail";
     }
     return null;
   }
@@ -54,9 +55,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          margin: const EdgeInsets.symmetric(vertical: 25),
-          child: Center(
+        body: Center(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -179,19 +179,22 @@ class _AuthScreenState extends State<AuthScreen> {
                                       ),
                                     ),
                                     SizedBox(height: screenHeight * 0.025),
-                                    const FormTextField(label: "First name"),
-                                    SizedBox(height: screenHeight * 0.020),
-                                    const FormTextField(label: "Last name"),
+                                    const FormTextField(label: "Name"),
                                     SizedBox(height: screenHeight * 0.020),
                                     FormTextField(
-                                      label: "Mobile no.",
-                                      keyboardType: TextInputType.phone,
-                                      mask: MaskTextInputFormatter(
-                                        mask: "+## (##) #####-####",
-                                        filter: {"#": RegExp(r'[0-9]')},
-                                        type: MaskAutoCompletionType.eager,
-                                      ),
-                                      validator: _validatePhoneNumber,
+                                      label: "E-mail",
+                                      keyboardType: TextInputType.emailAddress,
+                                      validator: _validateEmail,
+                                    ),
+                                    SizedBox(height: screenHeight * 0.025),
+                                    const FormTextField(
+                                      label: "Password",
+                                      obscureText: true,
+                                    ),
+                                    SizedBox(height: screenHeight * 0.025),
+                                    const FormTextField(
+                                      label: "Confirm password",
+                                      obscureText: true,
                                     ),
                                   ],
                                 ),
@@ -203,7 +206,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     const Text(
-                                      "Enter mobile no.",
+                                      "Account information",
                                       style: TextStyle(
                                         fontSize: 20,
                                         color: ColorPalette.black,
@@ -211,14 +214,15 @@ class _AuthScreenState extends State<AuthScreen> {
                                     ),
                                     SizedBox(height: screenHeight * 0.025),
                                     FormTextField(
-                                      label: "Mobile no.",
-                                      keyboardType: TextInputType.phone,
-                                      mask: MaskTextInputFormatter(
-                                        mask: "+## (##) #####-####",
-                                        filter: {"#": RegExp(r'[0-9]')},
-                                        type: MaskAutoCompletionType.eager,
-                                      ),
-                                      validator: _validatePhoneNumber,
+                                      label: "E-mail",
+                                      keyboardType: TextInputType.emailAddress,
+                                      validator: _validateEmail,
+                                    ),
+                                    SizedBox(height: screenHeight * 0.025),
+                                    const FormTextField(
+                                      label: "Password",
+                                      keyboardType: TextInputType.emailAddress,
+                                      obscureText: true,
                                     ),
                                   ],
                                 ),
@@ -227,7 +231,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(height: 30),
                 AuthButton(
                   _formIsReg ? "Register" : "Login",
                   onPressed: _formIsReg ? _register : _login,
