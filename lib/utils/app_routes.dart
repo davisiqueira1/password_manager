@@ -9,6 +9,6 @@ appRoutes() => [
       ),
       GetPage(
         name: "/auth",
-        page: () => const AuthScreen(),
+        page: () => AuthScreen(),
       ),
     ];
