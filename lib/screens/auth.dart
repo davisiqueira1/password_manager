@@ -100,23 +100,7 @@ class AuthScreen extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SvgPicture.asset("assets/images/app_icon.svg"),
-                      const Text(
-                        "Passblock",
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
-                          color: ColorPalette.black,
-                        ),
-                      ),
-                      const Text(
-                        "Frictionless Security",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 30),
+                      passblockLogo(),
                       Container(
                         margin: EdgeInsets.symmetric(
                             horizontal: screenWidth * 0.0514),
@@ -147,156 +131,16 @@ class AuthScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () => _toggleRegister(true),
-                                          child: Container(
-                                            height: 40,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              color: _authController
-                                                      .formIsRegObx.value
-                                                  ? ColorPalette.black
-                                                  : null,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
-                                            ),
-                                            child: Text(
-                                              "Register",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: _authController
-                                                        .formIsRegObx.value
-                                                    ? ColorPalette.white
-                                                    : ColorPalette.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () => _toggleRegister(false),
-                                          child: Container(
-                                            height: 40,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              color: !_authController
-                                                      .formIsRegObx.value
-                                                  ? ColorPalette.black
-                                                  : null,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
-                                            ),
-                                            child: Text(
-                                              "Login",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: !_authController
-                                                        .formIsRegObx.value
-                                                    ? ColorPalette.white
-                                                    : ColorPalette.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                      registerLabel(),
+                                      loginLabel(),
                                     ],
                                   ),
                                 ),
                               ),
                               SizedBox(height: screenHeight * 0.025),
                               _authController.formIsRegObx.value
-                                  ? Form(
-                                      key: _registerFormKey,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          const Text(
-                                            "Personal details",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              color: ColorPalette.black,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              height: screenHeight * 0.025),
-                                          FormTextField(
-                                            label: "Name",
-                                            validator: _validateName,
-                                            controller: _signUpNameController,
-                                          ),
-                                          SizedBox(
-                                              height: screenHeight * 0.020),
-                                          FormTextField(
-                                            label: "E-mail",
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            validator: _validateEmail,
-                                            controller: _signUpEmailController,
-                                          ),
-                                          SizedBox(
-                                              height: screenHeight * 0.025),
-                                          FormTextField(
-                                            label: "Password",
-                                            obscureText: true,
-                                            controller:
-                                                _signUpPasswordController,
-                                            validator: _validatePassword,
-                                          ),
-                                          SizedBox(
-                                              height: screenHeight * 0.025),
-                                          FormTextField(
-                                            label: "Confirm password",
-                                            obscureText: true,
-                                            controller:
-                                                _signUpConfirmPasswordController,
-                                            validator: _validatePassword,
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Form(
-                                      key: _loginFormKey,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          const Text(
-                                            "Account information",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              color: ColorPalette.black,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              height: screenHeight * 0.025),
-                                          FormTextField(
-                                            label: "E-mail",
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            validator: _validateEmail,
-                                            controller: _signInEmailController,
-                                          ),
-                                          SizedBox(
-                                              height: screenHeight * 0.025),
-                                          FormTextField(
-                                            label: "Password",
-                                            obscureText: true,
-                                            validator: _validatePassword,
-                                            controller:
-                                                _signInPasswordController,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                  ? registerForm(screenHeight)
+                                  : loginForm(screenHeight),
                             ],
                           ),
                         ),
@@ -330,6 +174,165 @@ class AuthScreen extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
+        ],
+      ),
+    );
+  }
+
+  Column passblockLogo() {
+    return Column(
+      children: [
+        SvgPicture.asset("assets/images/app_icon.svg"),
+        const Text(
+          "Passblock",
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.w700,
+            color: ColorPalette.black,
+          ),
+        ),
+        const Text(
+          "Frictionless Security",
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+          ),
+        ),
+        const SizedBox(height: 30),
+      ],
+    );
+  }
+
+  Expanded loginLabel() {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => _toggleRegister(false),
+        child: Container(
+          height: 40,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color:
+                !_authController.formIsRegObx.value ? ColorPalette.black : null,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          child: Text(
+            "Login",
+            style: TextStyle(
+              fontSize: 18,
+              color: !_authController.formIsRegObx.value
+                  ? ColorPalette.white
+                  : ColorPalette.black,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded registerLabel() {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => _toggleRegister(true),
+        child: Container(
+          height: 40,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color:
+                _authController.formIsRegObx.value ? ColorPalette.black : null,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          child: Text(
+            "Register",
+            style: TextStyle(
+              fontSize: 18,
+              color: _authController.formIsRegObx.value
+                  ? ColorPalette.white
+                  : ColorPalette.black,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Form registerForm(double screenHeight) {
+    return Form(
+      key: _registerFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const Text(
+            "Personal details",
+            style: TextStyle(
+              fontSize: 20,
+              color: ColorPalette.black,
+            ),
+          ),
+          SizedBox(height: screenHeight * 0.025),
+          FormTextField(
+            label: "Name",
+            validator: _validateName,
+            controller: _signUpNameController,
+          ),
+          SizedBox(height: screenHeight * 0.020),
+          FormTextField(
+            label: "E-mail",
+            keyboardType: TextInputType.emailAddress,
+            validator: _validateEmail,
+            controller: _signUpEmailController,
+          ),
+          SizedBox(height: screenHeight * 0.025),
+          FormTextField(
+            label: "Password",
+            obscureText: true,
+            controller: _signUpPasswordController,
+            validator: _validatePassword,
+          ),
+          SizedBox(height: screenHeight * 0.025),
+          FormTextField(
+            label: "Confirm password",
+            obscureText: true,
+            controller: _signUpConfirmPasswordController,
+            validator: _validatePassword,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Form loginForm(double screenHeight) {
+    return Form(
+      key: _loginFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const Text(
+            "Account information",
+            style: TextStyle(
+              fontSize: 20,
+              color: ColorPalette.black,
+            ),
+          ),
+          SizedBox(height: screenHeight * 0.025),
+          FormTextField(
+            label: "E-mail",
+            keyboardType: TextInputType.emailAddress,
+            validator: _validateEmail,
+            controller: _signInEmailController,
+          ),
+          SizedBox(height: screenHeight * 0.025),
+          FormTextField(
+            label: "Password",
+            obscureText: true,
+            validator: _validatePassword,
+            controller: _signInPasswordController,
+          ),
         ],
       ),
     );
