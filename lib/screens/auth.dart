@@ -10,6 +10,8 @@ class AuthScreen extends StatelessWidget {
   AuthScreen({super.key});
   final _registerFormKey = GlobalKey<FormState>();
   final _loginFormKey = GlobalKey<FormState>();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   final _authController =
       Get.put(AuthController(formIsReg: Get.arguments["registerTab"] ?? false));
 
@@ -28,8 +30,27 @@ class AuthScreen extends StatelessWidget {
     return null;
   }
 
+  String? _validateName(String? name) {
+    if (name == null || name.isEmpty) {
+      return "Invalid name";
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? password) {
+    if (password == null || password.isEmpty || password.length < 5) {
+      return "Invalid password";
+    }
+    return null;
+  }
+
   void _register() {
     final valid = _registerFormKey.currentState!.validate();
+    if (_passwordController.value.text !=
+        _confirmPasswordController.value.text) {
+      Get.snackbar("Authentication error", "Passwords don't match");
+      return;
+    }
     if (!valid) {
       return;
     }
@@ -179,7 +200,10 @@ class AuthScreen extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(height: screenHeight * 0.025),
-                                      const FormTextField(label: "Name"),
+                                      FormTextField(
+                                        label: "Name",
+                                        validator: _validateName,
+                                      ),
                                       SizedBox(height: screenHeight * 0.020),
                                       FormTextField(
                                         label: "E-mail",
@@ -188,14 +212,18 @@ class AuthScreen extends StatelessWidget {
                                         validator: _validateEmail,
                                       ),
                                       SizedBox(height: screenHeight * 0.025),
-                                      const FormTextField(
+                                      FormTextField(
                                         label: "Password",
                                         obscureText: true,
+                                        controller: _passwordController,
+                                        validator: _validatePassword,
                                       ),
                                       SizedBox(height: screenHeight * 0.025),
-                                      const FormTextField(
+                                      FormTextField(
                                         label: "Confirm password",
                                         obscureText: true,
+                                        controller: _confirmPasswordController,
+                                        validator: _validatePassword,
                                       ),
                                     ],
                                   ),
@@ -222,9 +250,10 @@ class AuthScreen extends StatelessWidget {
                                         validator: _validateEmail,
                                       ),
                                       SizedBox(height: screenHeight * 0.025),
-                                      const FormTextField(
+                                      FormTextField(
                                         label: "Password",
                                         obscureText: true,
+                                        validator: _validatePassword,
                                       ),
                                     ],
                                   ),

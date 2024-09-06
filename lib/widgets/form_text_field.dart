@@ -10,6 +10,7 @@ class FormTextField extends StatelessWidget {
     this.mask,
     this.validator,
     this.obscureText,
+    this.controller,
   });
 
   final String label;
@@ -17,6 +18,7 @@ class FormTextField extends StatelessWidget {
   final MaskTextInputFormatter? mask;
   final String? Function(String?)? validator;
   final bool? obscureText;
+  final TextEditingController? controller;
 
   final BorderRadius defaultBorderRadius = const BorderRadius.all(
     Radius.circular(10),
@@ -33,6 +35,7 @@ class FormTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator ?? _defaultValidator,
+      controller: controller,
       obscureText: obscureText ?? false,
       keyboardType: keyboardType ?? TextInputType.text,
       inputFormatters: mask != null ? [mask!] : [],
