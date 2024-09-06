@@ -53,6 +53,7 @@ class AuthController extends GetxController {
         "user-disabled":
             "The user corresponding to the given email has been disabled",
         "user-not-found": "Wrong e-mail or password",
+        "invalid-credential": "Wrong e-mail or password",
       };
       Get.snackbar(
         "Authentication error",
