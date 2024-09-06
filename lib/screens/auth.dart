@@ -61,6 +61,7 @@ class AuthScreen extends StatelessWidget {
     _authController.toggleLoading();
     try {
       await _authController.registerWithEmail(
+        _signUpNameController.text,
         _signUpEmailController.text,
         _signUpPasswordController.text,
       );

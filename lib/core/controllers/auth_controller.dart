@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/core/controllers/user_controller.dart';
 
 class AuthController extends GetxController {
   RxBool formIsRegObx = RxBool(false);
@@ -14,11 +15,18 @@ class AuthController extends GetxController {
   toggleFormIsReg() => formIsRegObx.value = !formIsRegObx.value;
   toggleLoading() => loading.value = !loading.value;
 
-  Future<void> registerWithEmail(String email, String password) async {
+  Future<void> registerWithEmail(
+    String name,
+    String email,
+    String password,
+  ) async {
     try {
-      // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+      await credential.user!.updateDisplayName(name);
+      // may have some delay. cant trust on session controller user stream being updated right after the call
+      // ill pass the name as createUser parameter to make sure its accurate
+      await Get.put(UserController()).createUser(name);
     } on FirebaseAuthException catch (e) {
       Map<String, String> firebaseAuthErrors = {
         "email-already-in-use":
