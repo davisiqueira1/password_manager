@@ -27,6 +27,13 @@ flutter:
     - assets/images/box.svg
     - assets/images/app_icon_with_shadow.svg
     - assets/images/app_icon.svg
+    - assets/images/search.svg
+    - assets/images/home-filled.svg
+    - assets/images/home-outlined.svg
+    - assets/images/settings-filled.svg
+    - assets/images/settings-outlined.svg
+    - assets/images/analysis-filled.svg
+    - assets/images/analysis-outlined.svg
   fonts:
     - family: Poppins
       fonts:
