@@ -27,6 +27,7 @@ class AuthController extends GetxController {
       // may have some delay. cant trust on session controller user stream being updated right after the call
       // ill pass the name as createUser parameter to make sure its accurate
       await Get.put(UserController()).createUser(name);
+      await Get.offAllNamed("/main");
     } on FirebaseAuthException catch (e) {
       Map<String, String> firebaseAuthErrors = {
         "email-already-in-use":
@@ -54,6 +55,7 @@ class AuthController extends GetxController {
       // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      await Get.offAllNamed("/main");
     } on FirebaseAuthException catch (e) {
       Map<String, String> firebaseAuthErrors = {
         "wrong-password": "Wrong e-mail or password",
