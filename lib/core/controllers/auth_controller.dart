@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   RxBool formIsRegObx = RxBool(false);
+  RxBool loading = false.obs;
 
   AuthController({
     bool formIsReg = false,
@@ -11,6 +12,7 @@ class AuthController extends GetxController {
   }
 
   toggleFormIsReg() => formIsRegObx.value = !formIsRegObx.value;
+  toggleLoading() => loading.value = !loading.value;
 
   Future<void> registerWithEmail(String email, String password) async {
     try {
