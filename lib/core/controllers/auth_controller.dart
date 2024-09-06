@@ -29,11 +29,13 @@ class AuthController extends GetxController {
         "Authentication error",
         firebaseAuthErrors[e.code] ?? "Unknown error",
       );
+      rethrow;
     } catch (e) {
       Get.snackbar(
         "Authentication error",
         "Unknown error",
       );
+      rethrow;
     }
   }
 
@@ -54,11 +56,13 @@ class AuthController extends GetxController {
         "Authentication error",
         firebaseAuthErrors[e.code] ?? "Unknown error",
       );
+      rethrow;
     } catch (e) {
       Get.snackbar(
         "Authentication error",
         "Unknown error",
       );
+      rethrow;
     }
   }
 }

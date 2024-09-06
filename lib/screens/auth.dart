@@ -10,8 +10,14 @@ class AuthScreen extends StatelessWidget {
   AuthScreen({super.key});
   final _registerFormKey = GlobalKey<FormState>();
   final _loginFormKey = GlobalKey<FormState>();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  // sign up
+  final _signUpNameController = TextEditingController();
+  final _signUpEmailController = TextEditingController();
+  final _signUpPasswordController = TextEditingController();
+  final _signUpConfirmPasswordController = TextEditingController();
+  // sign in
+  final _signInEmailController = TextEditingController();
+  final _signInPasswordController = TextEditingController();
   final _authController =
       Get.put(AuthController(formIsReg: Get.arguments["registerTab"] ?? false));
 
@@ -44,23 +50,33 @@ class AuthScreen extends StatelessWidget {
     return null;
   }
 
-  void _register() {
+  Future<void> _register() async {
     final valid = _registerFormKey.currentState!.validate();
-    if (_passwordController.value.text !=
-        _confirmPasswordController.value.text) {
+    if (_signUpPasswordController.text !=
+        _signUpConfirmPasswordController.text) {
       Get.snackbar("Authentication error", "Passwords don't match");
       return;
     }
-    if (!valid) {
-      return;
-    }
+    if (!valid) return;
+    try {
+      await _authController.registerWithEmail(
+        _signUpEmailController.text,
+        _signUpPasswordController.text,
+      );
+      // Get.off
+    } catch (_) {}
   }
 
-  void _login() {
+  Future<void> _login() async {
     final valid = _loginFormKey.currentState!.validate();
-    if (!valid) {
-      return;
-    }
+    if (!valid) return;
+    try {
+      await _authController.loginWithEmail(
+        _signUpEmailController.text,
+        _signUpPasswordController.text,
+      );
+      // Get.off
+    } catch (_) {}
   }
 
   @override
@@ -203,6 +219,7 @@ class AuthScreen extends StatelessWidget {
                                       FormTextField(
                                         label: "Name",
                                         validator: _validateName,
+                                        controller: _signUpNameController,
                                       ),
                                       SizedBox(height: screenHeight * 0.020),
                                       FormTextField(
@@ -210,19 +227,21 @@ class AuthScreen extends StatelessWidget {
                                         keyboardType:
                                             TextInputType.emailAddress,
                                         validator: _validateEmail,
+                                        controller: _signUpEmailController,
                                       ),
                                       SizedBox(height: screenHeight * 0.025),
                                       FormTextField(
                                         label: "Password",
                                         obscureText: true,
-                                        controller: _passwordController,
+                                        controller: _signUpPasswordController,
                                         validator: _validatePassword,
                                       ),
                                       SizedBox(height: screenHeight * 0.025),
                                       FormTextField(
                                         label: "Confirm password",
                                         obscureText: true,
-                                        controller: _confirmPasswordController,
+                                        controller:
+                                            _signUpConfirmPasswordController,
                                         validator: _validatePassword,
                                       ),
                                     ],
@@ -248,12 +267,14 @@ class AuthScreen extends StatelessWidget {
                                         keyboardType:
                                             TextInputType.emailAddress,
                                         validator: _validateEmail,
+                                        controller: _signInEmailController,
                                       ),
                                       SizedBox(height: screenHeight * 0.025),
                                       FormTextField(
                                         label: "Password",
                                         obscureText: true,
                                         validator: _validatePassword,
+                                        controller: _signInPasswordController,
                                       ),
                                     ],
                                   ),
