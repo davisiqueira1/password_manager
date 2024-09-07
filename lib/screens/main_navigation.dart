@@ -13,6 +13,13 @@ class MainNavigationScreen extends GetView<BottomBarController> {
     Text("4"),
   ];
 
+  final Map<int, String> pageName = const {
+    0: "Passwords",
+    1: "Security",
+    2: "Search",
+    3: "Settings",
+  };
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,6 +27,28 @@ class MainNavigationScreen extends GetView<BottomBarController> {
         () => Scaffold(
           body: Center(
             child: elements.elementAt(controller.currentIndex.value),
+          ),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(50),
+            child: Container(
+              height: 50,
+              margin: const EdgeInsets.symmetric(
+                horizontal: 32,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SvgPicture.asset("assets/images/profile.svg"),
+                  Text(
+                    pageName[controller.currentIndex.value]!,
+                    style: const TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+                  SvgPicture.asset("assets/images/add.svg"),
+                ],
+              ),
+            ),
           ),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
