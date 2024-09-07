@@ -34,6 +34,8 @@ flutter:
     - assets/images/settings-outlined.svg
     - assets/images/analysis-filled.svg
     - assets/images/analysis-outlined.svg
+    - assets/images/profile.svg
+    - assets/images/add.svg
   fonts:
     - family: Poppins
       fonts:
