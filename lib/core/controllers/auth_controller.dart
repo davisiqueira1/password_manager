@@ -6,6 +6,23 @@ class AuthController extends GetxController {
   RxBool formIsRegObx = RxBool(false);
   RxBool loading = false.obs;
 
+  final Map<String, String> firebaseRegisterErrors = const {
+    "email-already-in-use":
+        "An account with the given email address already exists.",
+    "invalid-email": "Invalid email address.",
+    "operation-not-allowed": "Invalid login operation. Contact support.",
+    "weak-password": "Password not strong enough.",
+  };
+
+  final Map<String, String> firebaseLoginErrors = const {
+    "wrong-password": "Wrong e-mail or password",
+    "invalid-email": "Invalid e-mail",
+    "user-disabled":
+        "The user corresponding to the given email has been disabled",
+    "user-not-found": "Wrong e-mail or password",
+    "invalid-credential": "Wrong e-mail or password",
+  };
+
   AuthController({
     bool formIsReg = false,
   }) {
@@ -27,24 +44,8 @@ class AuthController extends GetxController {
       // may have some delay. cant trust on session controller user stream being updated right after the call
       // ill pass the name as createUser parameter to make sure its accurate
       await UserController.createUser(name);
-    } on FirebaseAuthException catch (e) {
-      Map<String, String> firebaseAuthErrors = {
-        "email-already-in-use":
-            "An account with the given email address already exists.",
-        "invalid-email": "Invalid email address.",
-        "operation-not-allowed": "Invalid login operation. Contact support.",
-        "weak-password": "Password not strong enough.",
-      };
-      Get.snackbar(
-        "Authentication error",
-        firebaseAuthErrors[e.code] ?? "Unknown error",
-      );
-      rethrow;
     } catch (e) {
-      Get.snackbar(
-        "Authentication error",
-        "Unknown error",
-      );
+      print("Error while signing up with email");
       rethrow;
     }
   }
@@ -54,25 +55,8 @@ class AuthController extends GetxController {
       // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      Map<String, String> firebaseAuthErrors = {
-        "wrong-password": "Wrong e-mail or password",
-        "invalid-email": "Invalid e-mail",
-        "user-disabled":
-            "The user corresponding to the given email has been disabled",
-        "user-not-found": "Wrong e-mail or password",
-        "invalid-credential": "Wrong e-mail or password",
-      };
-      Get.snackbar(
-        "Authentication error",
-        firebaseAuthErrors[e.code] ?? "Unknown error",
-      );
-      rethrow;
     } catch (e) {
-      Get.snackbar(
-        "Authentication error",
-        "Unknown error",
-      );
+      print("Error while signing in with email");
       rethrow;
     }
   }

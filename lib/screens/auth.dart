@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -55,7 +56,15 @@ class AuthScreen extends StatelessWidget {
     if (!valid) return;
     if (_signUpPasswordController.text !=
         _signUpConfirmPasswordController.text) {
-      Get.snackbar("Authentication error", "Passwords don't match");
+      Get.showSnackbar(
+        const GetSnackBar(
+          title: "Authentication error",
+          message: "Passwords don't match",
+          backgroundColor: Colors.red,
+          icon: Icon(Icons.close),
+          duration: Duration(seconds: 3),
+        ),
+      );
       return;
     }
     _authController.toggleLoading();
@@ -66,6 +75,27 @@ class AuthScreen extends StatelessWidget {
         _signUpPasswordController.text,
       );
       await Get.offAllNamed("/main");
+    } on FirebaseAuthException catch (e) {
+      Get.showSnackbar(
+        GetSnackBar(
+          title: "Authentication error",
+          message:
+              _authController.firebaseRegisterErrors[e.code] ?? "Unknown error",
+          backgroundColor: Colors.red,
+          icon: const Icon(Icons.close),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    } catch (e) {
+      Get.showSnackbar(
+        const GetSnackBar(
+          title: "Authentication error",
+          message: "Unknown error",
+          backgroundColor: Colors.red,
+          icon: Icon(Icons.close),
+          duration: Duration(seconds: 3),
+        ),
+      );
     } finally {
       _authController.toggleLoading();
     }
@@ -81,6 +111,27 @@ class AuthScreen extends StatelessWidget {
         _signInPasswordController.text,
       );
       await Get.offAllNamed("/main");
+    } on FirebaseAuthException catch (e) {
+      Get.showSnackbar(
+        GetSnackBar(
+          title: "Authentication error",
+          message:
+              _authController.firebaseLoginErrors[e.code] ?? "Unknown error",
+          backgroundColor: Colors.red,
+          icon: const Icon(Icons.close),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    } catch (e) {
+      Get.showSnackbar(
+        const GetSnackBar(
+          title: "Authentication error",
+          message: "Unknown error",
+          backgroundColor: Colors.red,
+          icon: Icon(Icons.close),
+          duration: Duration(seconds: 3),
+        ),
+      );
     } finally {
       _authController.toggleLoading();
     }
