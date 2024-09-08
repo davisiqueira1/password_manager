@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:password_manager/core/bindings/bottombar_binding.dart';
+import 'package:password_manager/core/bindings/new_record_binding.dart';
 import 'package:password_manager/screens/auth.dart';
 import 'package:password_manager/screens/main_navigation.dart';
+import 'package:password_manager/screens/new_record.dart';
 import 'package:password_manager/screens/onboard.dart';
 
 appRoutes() => [
@@ -17,5 +19,10 @@ appRoutes() => [
         name: "/main",
         page: () => const MainNavigationScreen(),
         binding: BottomBarBinding(),
+      ),
+      GetPage(
+        name: "/newRecord",
+        page: () => const NewRecordScreen(),
+        binding: NewRecordBinding(),
       ),
     ];
