@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
 import 'package:password_manager/core/models/password_model.dart';
 
-class PasswordController extends GetxController {
+class PasswordController {
   static final _passwords = FirebaseFirestore.instance.collection("passwords");
   static final _accounts = FirebaseFirestore.instance.collection("accounts");
 

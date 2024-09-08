@@ -3,8 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/core/controllers/session_controller.dart';
 
-class UserController extends GetxController {
-  static final _fs = FirebaseFirestore.instance;
+class UserController {
   static final _users = FirebaseFirestore.instance.collection("users");
 
   static Future<void> createUser(String name) async {

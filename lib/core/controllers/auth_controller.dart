@@ -26,7 +26,7 @@ class AuthController extends GetxController {
       await credential.user!.updateDisplayName(name);
       // may have some delay. cant trust on session controller user stream being updated right after the call
       // ill pass the name as createUser parameter to make sure its accurate
-      await Get.put(UserController()).createUser(name);
+      await UserController.createUser(name);
       await Get.offAllNamed("/main");
     } on FirebaseAuthException catch (e) {
       Map<String, String> firebaseAuthErrors = {
