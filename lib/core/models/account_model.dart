@@ -50,7 +50,7 @@ class Account {
         login: data["login"]!,
         passwordRef: data["passwordRef"]!,
         imageUrl: data["imageUrl"]!,
-        tags: data["tags"]!,
+        tags: List<String>.from(data["tags"]!),
         priority: data["priority"]!,
       );
     } catch (e) {
