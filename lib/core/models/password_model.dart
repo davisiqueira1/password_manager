@@ -13,15 +13,15 @@ class Password {
     required this.safety,
   });
 
-  late String? uid;
-  final DocumentReference accountRef;
-  final String password;
-  final int length;
-  final bool numbers;
-  final bool symbols;
-  final bool lowercase;
-  final bool uppercase;
-  final String safety;
+  String? uid;
+  DocumentReference accountRef;
+  String password;
+  int length;
+  bool numbers;
+  bool symbols;
+  bool lowercase;
+  bool uppercase;
+  String safety;
 
   Map<String, dynamic> toJSON() {
     return {
@@ -35,5 +35,27 @@ class Password {
       "uppercase": uppercase,
       "safety": safety,
     };
+  }
+
+  factory Password.fromSnapshot(
+    DocumentSnapshot<Map<String, dynamic>> document,
+  ) {
+    final data = document.data()!;
+    try {
+      return Password(
+        uid: document.reference.id,
+        accountRef: data["accountRef"]!,
+        password: data["password"]!,
+        length: data["length"]!,
+        numbers: data["numbers"]!,
+        symbols: data["symbols"]!,
+        lowercase: data["lowercase"]!,
+        uppercase: data["uppercase"]!,
+        safety: data["safety"]!,
+      );
+    } catch (e) {
+      print("Error <Password.fromSnapshot> (probably some null value): $e");
+      rethrow;
+    }
   }
 }
