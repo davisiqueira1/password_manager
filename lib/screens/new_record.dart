@@ -38,46 +38,58 @@ class NewRecordScreen extends GetView<NewRecordController> {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 30),
-            child: Column(
-              children: <Widget>[
-                _formItem(
-                  "Name",
-                  "website or app name",
-                ),
-                const SizedBox(height: 10),
-                _formItem(
-                  "Login",
-                  "username or email",
-                ),
-                const SizedBox(height: 25),
-                const Divider(
-                  color: Color(0xFADADADA),
-                  thickness: 2,
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  "Password",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color(0xFF292D32),
+            child: Obx(
+              () => Column(
+                children: <Widget>[
+                  _formItem(
+                    "Name",
+                    "website or app name",
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                _passwordField(screenWidth - 48),
-                const SizedBox(height: 20),
-                _passwordLengthSlider(),
-                const SizedBox(height: 15),
-                _passwordCheckBoxes(),
-                const SizedBox(height: 40),
-                Row(
-                  children: <Widget>[
-                    Expanded(child: _button("Regenerate")),
-                    const SizedBox(width: 20),
-                    Expanded(child: _button("Save password")),
-                  ],
-                )
-              ],
+                  const SizedBox(height: 10),
+                  _formItem(
+                    "Login",
+                    "username or email",
+                  ),
+                  const SizedBox(height: 25),
+                  const Divider(
+                    color: Color(0xFADADADA),
+                    thickness: 2,
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Password",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF292D32),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  _passwordField(screenWidth - 48),
+                  const SizedBox(height: 20),
+                  _passwordLengthSlider(),
+                  const SizedBox(height: 15),
+                  _passwordCheckBoxes(),
+                  const SizedBox(height: 40),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: _button(
+                          "Regenerate",
+                          controller.generate,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: _button(
+                          "Save",
+                          () {},
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -85,9 +97,9 @@ class NewRecordScreen extends GetView<NewRecordController> {
     );
   }
 
-  TextButton _button(String label) {
+  TextButton _button(String label, void Function() onPressed) {
     return TextButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: TextButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -136,9 +148,9 @@ class NewRecordScreen extends GetView<NewRecordController> {
                 fit: BoxFit.scaleDown,
                 child: Container(
                   alignment: Alignment.center,
-                  child: const Text(
-                    "30",
-                    style: TextStyle(
+                  child: Text(
+                    controller.length.value.toInt().toString(),
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),
@@ -146,12 +158,15 @@ class NewRecordScreen extends GetView<NewRecordController> {
               ),
             ),
             Slider(
-              onChanged: (double v) {},
-              min: 5,
-              value: 15,
-              max: 30,
-              divisions: 30,
-              activeColor: Colors.blue,
+              onChanged: (double v) {
+                controller.setLength(v);
+                controller.generate();
+              },
+              min: controller.minLength,
+              value: controller.length.value,
+              max: controller.maxLength,
+              divisions: controller.maxLength.toInt(),
+              activeColor: const Color(0xFF105DFB),
               inactiveColor: Colors.grey,
             ),
           ],
@@ -189,9 +204,18 @@ class NewRecordScreen extends GetView<NewRecordController> {
               Transform.scale(
                 scale: 1.2,
                 child: Checkbox(
-                  value: false,
-                  onChanged: (bool? value) {},
-                  checkColor: Colors.blue,
+                  value: controller.settings[settings[index]!]?.value ?? false,
+                  onChanged: (bool? value) {
+                    controller.toggleSetting(value, settings[index]!);
+                    controller.generate();
+                  },
+                  fillColor: WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.selected)) {
+                      return const Color(0xFF105DFB);
+                    }
+                    return Colors.white;
+                  }),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
@@ -230,11 +254,11 @@ class NewRecordScreen extends GetView<NewRecordController> {
                 ),
                 child: Container(
                   alignment: Alignment.centerLeft,
-                  child: const FittedBox(
+                  child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      "ZjNWrxpBnytj",
-                      style: TextStyle(
+                      controller.password.value,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w300,
                         color: Color(0xFF808080),
@@ -247,7 +271,7 @@ class NewRecordScreen extends GetView<NewRecordController> {
                 margin: const EdgeInsets.only(right: 12),
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: controller.generate,
                   child: SvgPicture.asset("assets/images/refresh.svg"),
                 ),
               ),
