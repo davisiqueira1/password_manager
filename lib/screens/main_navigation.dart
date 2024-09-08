@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/core/controllers/bottombar_controller.dart';
 import 'package:password_manager/screens/home.dart';
+import 'package:password_manager/screens/settings.dart';
 
 class MainNavigationScreen extends GetView<BottomBarController> {
   const MainNavigationScreen({super.key});
@@ -11,7 +12,7 @@ class MainNavigationScreen extends GetView<BottomBarController> {
     HomeScreen(),
     Text("2"),
     Text("3"),
-    Text("4"),
+    SettingsScreen(),
   ];
 
   final Map<int, String> pageName = const {
