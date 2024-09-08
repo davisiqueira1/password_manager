@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:password_manager/core/controllers/account_controller.dart';
 import 'package:password_manager/core/controllers/home_controller.dart';
 import 'package:password_manager/core/models/account_model.dart';
+import 'package:password_manager/widgets/item_tile.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
@@ -27,7 +28,10 @@ class HomeScreen extends GetView<HomeController> {
               child: Obx(
                 () => Column(
                   children: accountController.accounts
-                      .map((Account acc) => Text(acc.name))
+                      .map((Account acc) => ItemTile(
+                            platformName: acc.name,
+                            email: acc.login,
+                          ))
                       .toList(),
                 ),
               ),
