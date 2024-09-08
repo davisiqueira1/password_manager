@@ -40,6 +40,7 @@ flutter:
     - assets/images/copy.svg
     - assets/images/arrow-left.svg
     - assets/images/refresh.svg
+    - assets/images/arrow-down.svg
   fonts:
     - family: Poppins
       fonts:
