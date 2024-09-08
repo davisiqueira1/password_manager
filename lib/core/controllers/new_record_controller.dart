@@ -1,4 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/core/controllers/account_controller.dart';
+import 'package:password_manager/core/controllers/session_controller.dart';
+import 'package:password_manager/core/controllers/user_controller.dart';
+import 'package:password_manager/core/models/account_model.dart';
+import 'package:password_manager/core/models/password_model.dart';
 import 'package:random_string_generator/random_string_generator.dart';
 
 class NewRecordController extends GetxController {
@@ -9,6 +15,9 @@ class NewRecordController extends GetxController {
   }
 
   late RxString password;
+
+  final nameField = TextEditingController();
+  final loginField = TextEditingController();
 
   // TODO password strength
 
@@ -59,5 +68,39 @@ class NewRecordController extends GetxController {
     );
 
     return generator.generate();
+  }
+
+  Future<void> saveRecord() async {
+    try {
+      Password pwd = Password(
+        uid: null,
+        accountRef: null,
+        password: password.value,
+        length: length.value.toInt(),
+        numbers: _settings["Numbers"]!.value,
+        symbols: _settings["Symbols"]!.value,
+        lowercase: _settings["Lowercase"]!.value,
+        uppercase: _settings["Uppercase"]!.value,
+        safety: "placeholder",
+      );
+      final userId = Get.find<SessionController>().user!.uid;
+      final userRef = await UserController.getUserRefById(userId);
+      Account acc = Account(
+        uid: null,
+        userRef: userRef,
+        name: nameField.text,
+        link: "placeholder", // !
+        login: loginField.text,
+        passwordRef: null,
+        imageUrl: "placeholder", // !
+        tags: [],
+        priority: false,
+      );
+
+      await Get.find<AccountController>().createAccount(acc, pwd);
+    } catch (e) {
+      print("Error while saving record");
+      rethrow;
+    }
   }
 }

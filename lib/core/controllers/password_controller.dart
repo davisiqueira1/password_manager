@@ -27,7 +27,7 @@ class PasswordController extends GetxController {
 
   static Future<String> createPassword(Password password) async {
     try {
-      final pwdRef = _passwords.doc();
+      final pwdRef = _passwords.doc(password.uid);
       await pwdRef.set(password.toJSON());
       return pwdRef.id;
     } catch (e) {

@@ -18,7 +18,7 @@ class Account {
   String name;
   String link;
   String login;
-  DocumentReference passwordRef;
+  DocumentReference? passwordRef;
   String imageUrl;
   List<String> tags;
   bool priority;

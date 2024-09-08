@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:password_manager/core/controllers/session_controller.dart';
 
 class UserController extends GetxController {
-  final _fs = FirebaseFirestore.instance;
-  final _users = FirebaseFirestore.instance.collection("users");
+  static final _fs = FirebaseFirestore.instance;
+  static final _users = FirebaseFirestore.instance.collection("users");
 
-  Future<void> createUser(String name) async {
+  static Future<void> createUser(String name) async {
     try {
       final User? user = Get.find<SessionController>().user;
       if (user == null) throw Exception("Session user is not set");
@@ -21,5 +21,9 @@ class UserController extends GetxController {
       print("Failed to create an user: $e");
       rethrow;
     }
+  }
+
+  static Future<DocumentReference> getUserRefById(String uid) async {
+    return _users.doc(uid);
   }
 }

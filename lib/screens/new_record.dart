@@ -44,11 +44,13 @@ class NewRecordScreen extends GetView<NewRecordController> {
                   _formItem(
                     "Name",
                     "website or app name",
+                    controller.nameField,
                   ),
                   const SizedBox(height: 10),
                   _formItem(
                     "Login",
                     "username or email",
+                    controller.loginField,
                   ),
                   const SizedBox(height: 25),
                   const Divider(
@@ -83,7 +85,7 @@ class NewRecordScreen extends GetView<NewRecordController> {
                       Expanded(
                         child: _button(
                           "Save",
-                          () {},
+                          controller.saveRecord,
                         ),
                       ),
                     ],
@@ -306,7 +308,7 @@ class NewRecordScreen extends GetView<NewRecordController> {
     );
   }
 
-  Row _formItem(String title, String fieldLabel) {
+  Row _formItem(String title, String fieldLabel, TextEditingController ctlr) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -322,6 +324,7 @@ class NewRecordScreen extends GetView<NewRecordController> {
         Expanded(
           child: TextField(
             cursorColor: Colors.black,
+            controller: ctlr,
             decoration: InputDecoration(
               focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(

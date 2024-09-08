@@ -14,7 +14,7 @@ class Password {
   });
 
   String? uid;
-  DocumentReference accountRef;
+  DocumentReference? accountRef;
   String password;
   int length;
   bool numbers;
