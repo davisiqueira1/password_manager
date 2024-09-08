@@ -16,6 +16,8 @@ class NewRecordController extends GetxController {
 
   late RxString password;
 
+  RxBool loading = false.obs;
+
   final nameField = TextEditingController();
   final loginField = TextEditingController();
 
@@ -40,6 +42,8 @@ class NewRecordController extends GetxController {
   void toggleSetting(bool? value, String key) {
     _settings[key]?.value = value ?? false;
   }
+
+  void toggleLoading() => loading(!loading.value);
 
   void generate() {
     password(_generate());

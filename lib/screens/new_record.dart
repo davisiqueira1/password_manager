@@ -10,89 +10,127 @@ class NewRecordScreen extends GetView<NewRecordController> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: Stack(
-            children: [
-              InkWell(
-                onTap: () => Get.back(closeOverlays: true),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 32),
-                  height: 50,
-                  child: SvgPicture.asset("assets/images/arrow-left.svg"),
-                ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: const Text(
-                  "New Record",
-                  style: TextStyle(
-                    fontSize: 24,
+      child: Obx(
+        () => Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(50),
+            child: Stack(
+              children: [
+                InkWell(
+                  onTap: () => Get.back(closeOverlays: true),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 32),
+                    height: 50,
+                    child: SvgPicture.asset("assets/images/arrow-left.svg"),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, top: 30),
-            child: Obx(
-              () => Column(
-                children: <Widget>[
-                  _formItem(
-                    "Name",
-                    "website or app name",
-                    controller.nameField,
-                  ),
-                  const SizedBox(height: 10),
-                  _formItem(
-                    "Login",
-                    "username or email",
-                    controller.loginField,
-                  ),
-                  const SizedBox(height: 25),
-                  const Divider(
-                    color: Color(0xFADADADA),
-                    thickness: 2,
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Password",
+                Container(
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "New Record",
                     style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFF292D32),
+                      fontSize: 24,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 20),
-                  _passwordField(screenWidth - 48),
-                  const SizedBox(height: 20),
-                  _passwordLengthSlider(),
-                  const SizedBox(height: 15),
-                  _passwordCheckBoxes(),
-                  const SizedBox(height: 40),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: _button(
-                          "Regenerate",
-                          controller.generate,
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: _button(
-                          "Save",
-                          controller.saveRecord,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                ),
+                if (controller.loading.value)
+                  const Opacity(
+                    opacity: 0.25,
+                    child: ModalBarrier(
+                      dismissible: false,
+                      color: Colors.black,
+                    ),
+                  ),
+              ],
             ),
+          ),
+          body: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24, top: 30),
+                  child: Column(
+                    children: <Widget>[
+                      _formItem(
+                        "Name",
+                        "website or app name",
+                        controller.nameField,
+                      ),
+                      const SizedBox(height: 10),
+                      _formItem(
+                        "Login",
+                        "username or email",
+                        controller.loginField,
+                      ),
+                      const SizedBox(height: 25),
+                      const Divider(
+                        color: Color(0xFADADADA),
+                        thickness: 2,
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        "Password",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Color(0xFF292D32),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      _passwordField(screenWidth - 48),
+                      const SizedBox(height: 20),
+                      _passwordLengthSlider(),
+                      const SizedBox(height: 15),
+                      _passwordCheckBoxes(),
+                      const SizedBox(height: 40),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: _button(
+                              "Regenerate",
+                              controller.generate,
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: _button("Save", () async {
+                              controller.toggleLoading();
+                              await controller.saveRecord();
+                              controller.toggleLoading();
+                              Get.back();
+                              Get.showSnackbar(
+                                const GetSnackBar(
+                                  title: "Success!",
+                                  message: "Account registered sucessfully",
+                                  shouldIconPulse: true,
+                                  backgroundColor: Color(0xFF1ED670),
+                                  icon: Icon(Icons.star),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              if (controller.loading.value)
+                const Opacity(
+                  opacity: 0.25,
+                  child: ModalBarrier(
+                    dismissible: false,
+                    color: Colors.black,
+                  ),
+                ),
+              if (controller.loading.value)
+                const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ),
+                ),
+            ],
           ),
         ),
       ),
