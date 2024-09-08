@@ -10,14 +10,14 @@ class AccountController extends GetxController {
   final _passwords = FirebaseFirestore.instance.collection("passwords");
   final _users = FirebaseFirestore.instance.collection("users");
 
-  List<Account> _accounts = [];
+  final RxList<Account> _accounts = List<Account>.from([]).obs;
 
-  List<Account> get accounts => List<Account>.from(_accounts);
+  RxList<Account> get accounts => RxList<Account>.from(_accounts);
 
   Future<void> initialize() async {
     final userId = Get.find<SessionController>().user!.uid;
     print("initializing accounts with userId: $userId");
-    _accounts = await getAccountsByUserId(userId);
+    _accounts.value = await getAccountsByUserId(userId);
     print("accounts length: ${_accounts.length}");
   }
 

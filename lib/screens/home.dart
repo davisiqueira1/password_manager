@@ -24,10 +24,12 @@ class HomeScreen extends GetView<HomeController> {
             }
 
             return SingleChildScrollView(
-              child: Column(
-                children: accountController.accounts
-                    .map((Account acc) => Text(acc.name))
-                    .toList(),
+              child: Obx(
+                () => Column(
+                  children: accountController.accounts
+                      .map((Account acc) => Text(acc.name))
+                      .toList(),
+                ),
               ),
             );
           },
