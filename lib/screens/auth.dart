@@ -65,7 +65,7 @@ class AuthScreen extends StatelessWidget {
         _signUpEmailController.text,
         _signUpPasswordController.text,
       );
-      // Get.off
+      await Get.offAllNamed("/main");
     } finally {
       _authController.toggleLoading();
     }
@@ -80,7 +80,7 @@ class AuthScreen extends StatelessWidget {
         _signInEmailController.text,
         _signInPasswordController.text,
       );
-      // Get.off
+      await Get.offAllNamed("/main");
     } finally {
       _authController.toggleLoading();
     }
