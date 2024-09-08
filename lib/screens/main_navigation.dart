@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/core/controllers/bottombar_controller.dart';
+import 'package:password_manager/screens/home.dart';
 
 class MainNavigationScreen extends GetView<BottomBarController> {
   const MainNavigationScreen({super.key});
 
   final List<Widget> elements = const [
-    Text("1"),
+    HomeScreen(),
     Text("2"),
     Text("3"),
     Text("4"),
@@ -45,7 +46,10 @@ class MainNavigationScreen extends GetView<BottomBarController> {
                       fontSize: 24,
                     ),
                   ),
-                  SvgPicture.asset("assets/images/add.svg"),
+                  InkWell(
+                    onTap: () => Get.toNamed("/newRecord"),
+                    child: SvgPicture.asset("assets/images/add.svg"),
+                  ),
                 ],
               ),
             ),
