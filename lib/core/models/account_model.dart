@@ -13,15 +13,15 @@ class Account {
     required this.priority,
   });
 
-  late String? uid;
-  final DocumentReference userRef;
-  final String name;
-  final String link;
-  final String login;
-  final DocumentReference passwordRef;
-  final String imageUrl;
-  final List<String> tags;
-  final bool priority;
+  String? uid;
+  DocumentReference userRef;
+  String name;
+  String link;
+  String login;
+  DocumentReference passwordRef;
+  String imageUrl;
+  List<String> tags;
+  bool priority;
 
   Map<String, dynamic> toJSON() {
     return {
@@ -35,5 +35,27 @@ class Account {
       "tags": tags,
       "priority": priority,
     };
+  }
+
+  factory Account.fromSnapshot(
+    DocumentSnapshot<Map<String, dynamic>> document,
+  ) {
+    final data = document.data()!;
+    try {
+      return Account(
+        uid: data["uid"]!,
+        userRef: data["userRef"]!,
+        name: data["name"]!,
+        link: data["link"]!,
+        login: data["login"]!,
+        passwordRef: data["passwordRef"]!,
+        imageUrl: data["imageUrl"]!,
+        tags: data["tags"]!,
+        priority: data["priority"]!,
+      );
+    } catch (e) {
+      print("Error <Account.fromSnapshot> (probably some null value): $e");
+      rethrow;
+    }
   }
 }
